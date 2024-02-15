@@ -1,31 +1,16 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
+import { Controller, Get } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class AppController {
-  constructor(@Inject('SERVICE_GPIO') private client: ClientProxy) {}
+  constructor(private readonly configService: ConfigService) {}
 
-  @Get('list')
-  listGpios(): Observable<string[]> {
-    return this.client.send({ cmd: 'listJ8' }, {});
-  }
-
-  @Get('activate')
-  activateGpio(): Observable<void> {
-    return this.client.send(
-      { cmd: 'activateGpio' },
-      { gpioId: '0', during: '4' },
-    );
-  }
-
-  @Get('reset')
-  resetGpio(): Observable<void> {
-    return this.client.send({ cmd: 'resetGpio' }, '0');
-  }
-
-  @Get('resetall')
-  resetGpios(): Observable<void> {
-    return this.client.send({ cmd: 'resetGpios' }, {});
+  @Get('/')
+  index(): { appName: string; appVersion: string; target: string } {
+    return {
+      appName: this.configService.get<string>('name'),
+      appVersion: this.configService.get<string>('version'),
+      target: this.configService.get<string>('environment'),
+    };
   }
 }

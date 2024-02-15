@@ -4,6 +4,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { config } from './config/config';
+import { GpioController } from './gpio.controller';
 
 @Module({
   imports: [
@@ -40,13 +41,13 @@ import { config } from './config/config';
         name: 'SERVICE_GPIO',
         transport: Transport.TCP,
         options: {
-          host: 'ms-gpio',
-          port: 3001,
+          host: process.env.MS_GPIO_HOST,
+          port: parseInt(process.env.MS_GPIO_PORT, 10),
         },
       },
     ]),
   ],
-  controllers: [AppController],
+  controllers: [AppController, GpioController],
   providers: [],
 })
 export class AppModule {}
