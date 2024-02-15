@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Controller()
 export class AppController {
-  constructor(@Inject('SERVICE_GPIO') private client: ClientProxy) { }
+  constructor(@Inject('SERVICE_GPIO') private client: ClientProxy) {}
 
   @Get('list')
   listGpios(): Observable<string[]> {
@@ -13,7 +13,10 @@ export class AppController {
 
   @Get('activate')
   activateGpio(): Observable<void> {
-    return this.client.send({ cmd: 'activateGpio' }, { gpioId: '0', during: '4' });
+    return this.client.send(
+      { cmd: 'activateGpio' },
+      { gpioId: '0', during: '4' },
+    );
   }
 
   @Get('reset')
