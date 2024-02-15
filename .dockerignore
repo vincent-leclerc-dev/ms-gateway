@@ -1,8 +1,13 @@
+Dockerfile
+
 **/node_modules/
 **/dist
-.git
+
 npm_debug.log
+
+.aws
 .coverage
 .coverage.*
+.dockerignore
 .env
-.aws
+.git

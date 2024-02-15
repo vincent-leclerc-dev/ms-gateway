@@ -9,9 +9,7 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [
-
-      ],
+      providers: [],
       imports: [
         ClientsModule.register([
           {
@@ -19,10 +17,10 @@ describe('AppController', () => {
             transport: Transport.TCP,
             options: {
               host: 'localhost',
-              port: 3001
-            }
-          }
-        ])
+              port: 3001,
+            },
+          },
+        ]),
       ],
     }).compile();
 
@@ -30,7 +28,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return [\'GPIO0\']', async () => {
+    it("should return ['GPIO0']", async () => {
       const input = ['GPIO0'];
       const input$ = of(input);
 
