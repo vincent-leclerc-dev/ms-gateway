@@ -5,9 +5,11 @@ import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { config } from './config/config';
 import { GpioController } from './gpio.controller';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
+    HealthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
@@ -19,6 +21,7 @@ import { GpioController } from './gpio.controller';
         if (configService.get('environment') === 'development') {
           return {
             pinoHttp: {
+              level: configService.get('logLevel'),
               transport: {
                 target: 'pino-pretty',
                 options: {
@@ -31,7 +34,9 @@ import { GpioController } from './gpio.controller';
           };
         } else {
           return {
-            pinoHttp: {},
+            pinoHttp: {
+              level: configService.get('logLevel'),
+            },
           };
         }
       },

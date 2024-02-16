@@ -5,6 +5,7 @@
 - docker
 - docker-compose
 - git
+- nestjs cli
 - my scripts docker
 
 ### Clone my docker repository

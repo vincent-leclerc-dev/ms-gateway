@@ -13,7 +13,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
-  const configService = app.get(ConfigService);
+  const config = app.get(ConfigService);
 
   // performance
   app.use(compression());
@@ -43,15 +43,15 @@ async function bootstrap() {
 
   // documentation
   const documentBuilder = new DocumentBuilder()
-    .setTitle(configService.get<string>('name'))
-    .setDescription(configService.get<string>('description'))
-    .setVersion(configService.get<string>('version'))
-    .addTag(configService.get<string[]>('keywords').join(','))
+    .setTitle(config.get<string>('name'))
+    .setDescription(config.get<string>('description'))
+    .setVersion(config.get<string>('version'))
+    .addTag(config.get<string[]>('keywords').join(','))
     .build();
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup('documentation', app, document);
 
-  await app.listen(configService.get<number>('port'));
+  await app.listen(config.get<number>('port'));
 }
 
 bootstrap();
