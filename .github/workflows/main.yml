@@ -16,6 +16,8 @@ jobs:
         ssh-keyscan -H ${{ secrets.SSH_HOST_CONNECTED_BAR }} > ~/.ssh/known_hosts
     - name: connect and pull
       run: ssh ${{ secrets.SSH_USER_CONNECTED_BAR }}@${{ secrets.SSH_HOST_CONNECTED_BAR }} "cd ${{ secrets.WORKDIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull"
+    - name: debug
+      run: ls -alh
     - name: create env var
       run: |
         touch .env
