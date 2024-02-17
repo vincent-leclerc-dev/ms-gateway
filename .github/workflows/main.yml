@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  run_pull:
+    name: run pull
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PK_CONNECTED_BAR }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST_CONNECTED_BAR }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh ${{ secrets.SSH_USER_CONNECTED_BAR }}@${{ secrets.SSH_HOST_CONNECTED_BAR }} "cd ${{ secrets.WORKDIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull"
+    - name: cleanup
+      run: rm -rf ~/.ssh
