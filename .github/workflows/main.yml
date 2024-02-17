@@ -17,6 +17,6 @@ jobs:
     - name: connect and pull
       run: ssh ${{ secrets.SSH_USER_CONNECTED_BAR }}@${{ secrets.SSH_HOST_CONNECTED_BAR }} "cd ${{ secrets.WORKDIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull"
     - name: connect and deploy
-      run: ssh ${{ secrets.SSH_USER_CONNECTED_BAR }}@${{ secrets.SSH_HOST_CONNECTED_BAR }} "cd ${{ secrets.WORKDIR }} && touch .env && echo -e "API_PORT=${{ secrets.API_PORT }}\nMS_GPIO_HOST=\'${{secrets.MS_GPIO_HOST}}\'\nMS_GPIO_PORT=${{secrets.MS_GPIO_PORT}}" > .env && docker-compose up -d --build --force-recreate"
+      run: ssh ${{ secrets.SSH_USER_CONNECTED_BAR }}@${{ secrets.SSH_HOST_CONNECTED_BAR }} "cd ${{ secrets.WORKDIR }} && touch .env && echo -e -n "API_PORT=${{ secrets.API_PORT }}\rMS_GPIO_HOST=\'${{secrets.MS_GPIO_HOST}}\'\rMS_GPIO_PORT=${{secrets.MS_GPIO_PORT}}" > .env && docker-compose up -d --build --force-recreate"
     - name: cleanup
       run: rm -rf ~/.ssh
