@@ -18,9 +18,6 @@ async function bootstrap() {
   // performance
   app.use(compression());
 
-  // security
-  app.use(helmet());
-
   // validation
   app.useGlobalPipes(
     new ValidationPipe({
@@ -50,6 +47,9 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup('documentation', app, document);
+
+  // security
+  app.use(helmet());
 
   await app.listen(config.get<number>('port'));
 }
